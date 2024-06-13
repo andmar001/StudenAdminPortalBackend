@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using StudentAdminPortal.API.DataModels;
 
 namespace StudentAdminPortal.API
 {
@@ -28,6 +23,10 @@ namespace StudentAdminPortal.API
         {
 
             services.AddControllers();
+
+            services.AddDbContext<StudentAdminContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("StudentAdminPortalDb")));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentAdminPortal.API", Version = "v1" });
